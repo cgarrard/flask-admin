@@ -37,3 +37,8 @@ To run this example:
 6. You will notice that the maps are not rendered. To see them, you will have
 to register for a free account at `Mapbox <https://www.mapbox.com/>`_ and set
 the *MAPBOX_MAP_ID* and *MAPBOX_ACCESS_TOKEN* config variables accordingly.
+
+If you'd rather use `Esri Leaflet <https://github.com/Esri/esri-leaflet>`_
+then set the *ESRI_BASEMAPS* config variables to a list of the Esri basemaps
+you want to use. If there are multiple basemaps in the list, then a layer
+control will be added to the map so you can switch between them.

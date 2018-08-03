@@ -73,8 +73,8 @@
        * Process Leaflet (map) widget
        */
       function processLeafletWidget($el, name) {
-        if (!window.MAPBOX_MAP_ID) {
-          console.error("You must set MAPBOX_MAP_ID in your Flask settings to use the map widget");
+        if (!(window.MAPBOX_MAP_ID || window.ESRI_BASEMAPS)) {
+          console.error("You must set MAPBOX_MAP_ID or ESRI_BASEMAPS in your Flask settings to use the map widget");
           return false;
         }
 
@@ -163,12 +163,14 @@
             attribution: attribution,
             maxZoom: 18
           }).addTo(map)
-        } else {
+        } else if (window.MAPBOX_MAP_ID) {
           var mapboxVersion = window.MAPBOX_ACCESS_TOKEN ? 4 : 3;
           L.tileLayer('//{s}.tiles.mapbox.com/v'+mapboxVersion+'/'+MAPBOX_MAP_ID+'/{z}/{x}/{y}.png?access_token='+window.MAPBOX_ACCESS_TOKEN, {
             attribution: 'Map data &copy; <a href="//openstreetmap.org">OpenStreetMap</a> contributors, <a href="//creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="//mapbox.com">Mapbox</a>',
             maxZoom: 18
           }).addTo(map);
+        } else {
+          var esriMap = L.esri.basemapLayer(window.ESRI_BASEMAPS[0]).addTo(map);
         }
 
 
@@ -176,6 +178,17 @@
         // we can just return early.
         if (!editable) {
           return true;
+        }
+
+        // set up Esri basemap switcher
+        if (window.ESRI_BASEMAPS.length > 1) {
+          var basemaps = {};
+          basemaps[window.ESRI_BASEMAPS[0]] = esriMap;
+          for (var i = 1; i < window.ESRI_BASEMAPS.length; i++) {
+            var lyr = window.ESRI_BASEMAPS[i];
+            basemaps[lyr] = L.esri.basemapLayer(lyr);
+          }
+          L.control.layers(basemaps, null).addTo(map);
         }
 
         // set up Leaflet.draw editor

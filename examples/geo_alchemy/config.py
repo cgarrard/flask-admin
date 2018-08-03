@@ -8,3 +8,5 @@ SQLALCHEMY_ECHO = True
 # credentials for loading map tiles from mapbox
 MAPBOX_MAP_ID = '...'
 MAPBOX_ACCESS_TOKEN = '...'
+
+ESRI_BASEMAPS = []

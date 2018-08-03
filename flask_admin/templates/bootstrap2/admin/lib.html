@@ -222,6 +222,10 @@
   <link href="{{ admin_static.url(filename='vendor/leaflet/leaflet.css', v='1.0.0') }}" rel="stylesheet">
   <link href="{{ admin_static.url(filename='vendor/leaflet/leaflet.draw.css', v='0.3.2') }}" rel="stylesheet">
   {% endif %}
+  {% if config.ESRI_BASEMAPS %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.12/leaflet.draw.css" />
+  {% endif %}
   {% if editable_columns %}
   <link href="{{ admin_static.url(filename='vendor/x-editable/css/bootstrap2-editable.css', v='1.5.1.1') }}" rel="stylesheet">
   {% endif %}
@@ -243,6 +247,14 @@
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key={{ config.get('GOOGLE_MAPS_API_KEY') }}"></script>
   {% endif %}
+  {% endif %}
+  {% if config.ESRI_BASEMAPS %}
+  <script>
+  window.ESRI_BASEMAPS = {{ config.ESRI_BASEMAPS | tojson }}
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.12/leaflet.draw.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.1.0/esri-leaflet.js"></script>
   {% endif %}
   <script src="{{ admin_static.url(filename='vendor/bootstrap-daterangepicker/daterangepicker.js', v='1.3.22') }}"></script>
   {% if editable_columns %}
